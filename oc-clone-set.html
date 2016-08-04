@@ -1,33 +1,62 @@
 <link rel="import" href="../polymer/polymer.html">
+<link rel="import" href="../paper-input/paper-input.html">
+<link rel="import" href="../paper-dialog/paper-dialog.html">
 
 <!--
-`oc-clone-set`
-Element to clone an existing option or extra set in the global product section of the Ordercloud platform
+`oc-clone-option`
+A component to duplicate options on the Ordercloud platform
 
-@demo demo/index.html 
+@demo demo/index.html
 -->
 
-<dom-module id="oc-clone-set">
+<dom-module id="oc-clone-option">
   <template>
     <style>
       :host {
         display: block;
       }
     </style>
-    <h2>Hello [[prop1]]</h2>
+
+    <paper-dialog id="cloneModal" always-on-top>
+      <h2>Copy set: {{name}}</h2>
+      <paper-input id="cloneInput" label="enter a new name for the set" auto-validate error-message="Please enter a new set name" value="{{name}}" required></paper-input>
+      <div class="buttons">
+        <paper-button dialog-dismiss>Close</paper-button>
+        <paper-button raised on-tap="_confirm">Copy option set</paper-button>
+      </div>
+    </paper-dialog>
+
+
   </template>
 
   <script>
     Polymer({
 
-      is: 'oc-clone-set',
+      is: 'oc-clone-option',
 
       properties: {
-        prop1: {
-          type: String,
-          value: 'oc-clone-set',
-        },
+        name : String,
+        id: Number,
+        originalName : Number
       },
+
+
+      open: function(){
+        this.$.cloneModal.open();
+        this.originalName = this.name;
+      },
+
+      _confirm : function(){
+        if(this.$.cloneInput.validate()){
+          var params = {};
+          params.setId = this.id;
+          params.newSetName = (this.name === this.originalName) ? "Copy of "+this.name : this.name ;
+
+          this.fire("clone", params);
+          this.$.cloneModal.close();
+        }
+
+      }
 
     });
   </script>
