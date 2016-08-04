@@ -1,0 +1,34 @@
+<link rel="import" href="../polymer/polymer.html">
+
+<!--
+`oc-clone-set`
+Element to clone an existing option or extra set in the global product section of the Ordercloud platform
+
+@demo demo/index.html 
+-->
+
+<dom-module id="oc-clone-set">
+  <template>
+    <style>
+      :host {
+        display: block;
+      }
+    </style>
+    <h2>Hello [[prop1]]</h2>
+  </template>
+
+  <script>
+    Polymer({
+
+      is: 'oc-clone-set',
+
+      properties: {
+        prop1: {
+          type: String,
+          value: 'oc-clone-set',
+        },
+      },
+
+    });
+  </script>
+</dom-module>
